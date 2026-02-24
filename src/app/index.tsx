@@ -1,11 +1,22 @@
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 
-import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Image, StyleSheet, Text, View, ScrollView,KeyboardAvoidingView, Platform, Alert } from "react-native";
 import { Link } from "expo-router";
 
 export default function Index(){
+    let email = "";
+
+    function handleSignIn(){
+        console.log(email)
+        Alert.alert("Entrar", "Preencha e-mail e senha para entrar!")
+
+    }
     return(
+        <KeyboardAvoidingView 
+            style={{flex:1}}
+            behavior={Platform.select({ios:"padding", android:"height"})}
+            >
         <ScrollView contentContainerStyle={{ flexGrow:1 }}>
             <View style={styles.container}>
                 <Image 
@@ -13,9 +24,13 @@ export default function Index(){
                     style={styles.ilustration} 
                 />
                 <View style={styles.form}>
-                    <Input placeholder="E-mail" keyboardType="email-address" />
+                    <Input placeholder="E-mail"
+                     keyboardType="email-address"
+                     onChangeText={(text) =>(email = text)}
+                     />
                     <Input placeholder="Senha" secureTextEntry/>
-                    <Button label="Entrar" />
+
+                    <Button label="Entrar"onPress={handleSignIn} />
                     {/* <Button label="Entrar" style={{ backgroundColor: "green"}}/> */}
                 </View>
                 <Text style={styles.footerText}>Não tem uma conta? 
@@ -25,6 +40,7 @@ export default function Index(){
                 </Text>
             </View>
         </ScrollView>
+        </KeyboardAvoidingView>
     )
 } 
 

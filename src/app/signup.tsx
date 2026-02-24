@@ -1,13 +1,76 @@
-import { Text, View } from "react-native";
+import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
 
-export default function Signup(){
+import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Link } from "expo-router";
+
+export default function signup(){
     return(
-        <View style={{
-            flex:1, 
-            justifyContent: "center", 
-            alignItems: "center" }}
+        <ScrollView contentContainerStyle={{ flexGrow:1 }}
+        showsVerticalScrollIndicator={false}
         >
-        <Text >oi</Text>
-        </View>
+            <View style={styles.container}>
+                <Image 
+                    source={require('@/assets/image2.png')}
+                    style={styles.ilustration} 
+                />
+                <Text style={styles.title}>Cadastrar </Text>
+                <Text style={styles.subtitle}>Crie sua conta para acessar </Text>
+                        
+                <View style={styles.form}>
+                    <Input placeholder="Nome" />
+                    <Input placeholder="E-mail" keyboardType="email-address" />
+                    <Input placeholder="Senha" secureTextEntry/>
+                    <Input placeholder="Confirme sua Senha" secureTextEntry/>
+
+                    <Button label="Cadastrar" />
+                    {/* <Button label="Entrar" style={{ backgroundColor: "green"}}/> */}
+                </View>
+                <Text style={styles.footerText}>Já tem uma conta? 
+                    <Link href="/signup" style={styles.footerLink}>
+                        {" "}Entra Aqui
+                    </Link>
+                </Text>
+            </View>
+        </ScrollView>
     )
-}
+} 
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        backgroundColor: "#FDFDFD",
+        padding:32
+    },
+    ilustration:{
+        width: "100%",
+        height: 330,
+        resizeMode:"contain",
+        marginTop:62
+    }, 
+    footerText:{
+        textAlign:"center",
+        marginTop:24,
+        color:"#585860",
+    },
+    footerLink:{
+        color:"#0929b8",
+        fontWeight:700
+    },
+    form: {
+        marginTop:24,
+        gap:12
+    },
+
+    title:{
+        fontSize: 32,
+        fontWeight: 900
+
+    },
+
+    subtitle:{
+        fontSize: 16,
+   
+},
+
+})
