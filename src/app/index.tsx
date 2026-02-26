@@ -1,61 +1,114 @@
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+
+import { Link } from "expo-router";
 import { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 
 export default function Index() {
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [confirmaSenha, setConfirmaSenha] = useState("");
+  const [confirmaSenha, setConfirmaSenha] = useState(""); // campo para validação
 
-  function handleCadastrar() {
-    console.log("Botão clicado");
-
+  function handleSignIn() {
+    // Verificação da atividade
     if (senha !== confirmaSenha) {
       Alert.alert("Atenção", "Senha não confere!");
     } else {
       Alert.alert("Sucesso", "Senha confirmada!");
+      console.log("Email:", email);
     }
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
-
-      <TextInput
-        placeholder="Senha"
-        secureTextEntry
-        style={styles.input}
-        value={senha}
-        onChangeText={setSenha}
-      />
-
-      <TextInput
-        placeholder="Confirmar Senha"
-        secureTextEntry
-        style={styles.input}
-        value={confirmaSenha}
-        onChangeText={setConfirmaSenha}
-      />
-
-      <Button title="Cadastrar" onPress={handleCadastrar} />
-    </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.select({ ios: "padding", android: "height" })}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.container}>
+          <Image
+            source={require("@/assets/image1.png")}
+            style={styles.ilustration}
+          />
+          <Text style={styles.title}>Entrar</Text>
+          <Text style={styles.subtitle}>
+            Acesse sua conta com e-mail e senha
+          </Text>
+          <View style={styles.form}>
+            <Input
+              placeholder="E-mail"
+              keyboardType="email-address"
+              onChangeText={setEmail}
+            />
+            <Input
+              placeholder="Senha"
+              secureTextEntry
+              onChangeText={setSenha}
+            />
+            <Input
+              placeholder="Confirmar Senha" // novo campo
+              secureTextEntry
+              onChangeText={setConfirmaSenha}
+            />
+            <Button label="Entrar" onPress={handleSignIn} />
+          </View>
+          <Text style={styles.footerText}>
+            Não tem uma conta?
+            <Link href="/signup" style={styles.footerLink}>
+              {" "}
+              Cadastre-se aqui
+            </Link>
+          </Text>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    backgroundColor: "#FDFDFD",
+    padding: 32,
+  },
+  ilustration: {
+    width: "100%",
+    height: 330,
+    resizeMode: "contain",
+    marginTop: 62,
+  },
+  footerText: {
+    textAlign: "center",
+    marginTop: 24,
+    color: "#585860",
+  },
+  footerLink: {
+    color: "#0929b8",
+    fontWeight: 700,
+  },
+  form: {
+    marginTop: 24,
+    gap: 12,
   },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
+    fontSize: 32,
+    fontWeight: 900,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 5,
+  subtitle: {
+    fontSize: 16,
   },
 });
